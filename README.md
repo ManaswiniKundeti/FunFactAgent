@@ -41,11 +41,11 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 - BFF (Backend for Frontend) pattern
 - Calling an AI agent from a mobile app
 - FastAPI basics: routes, responses
-- Python virtual environments
+- Python virtual environments + keeping secrets out of code
 - Jetpack Compose state management with network calls
 
 ## Next Steps
 
-- [ ] User types their own question (dynamic input)
+- [x] User types their own question (dynamic input)
 - [ ] Streaming response (word by word)
 - [ ] Deploy backend to GCP Cloud Run
