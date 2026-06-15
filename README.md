@@ -36,6 +36,18 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 - Run on emulator (uses `10.0.2.2:8000` to reach localhost)
 - Requires `INTERNET` permission in manifest
 
+### Screenshots
+<img width="250" height="550" alt="AskAgent" src="https://github.com/user-attachments/assets/42cbae78-f29d-41f4-bf81-7870072a7c7e" />
+
+#### Static question to agent to show fun facts about space
+<img width="250" height="550" alt="V1_SpaceFactsFromAgent" src="https://github.com/user-attachments/assets/f4eab181-ffeb-499c-8404-c2697cd616c8" />
+
+#### Agent being able to dynamically provide answers to any question
+<img width="250" height="550" alt="V2_AskSomething" src="https://github.com/user-attachments/assets/68f042dc-10fd-4b00-a220-7f42affdfa8f" />
+
+
+
+
 ## What I Learned
 
 - BFF (Backend for Frontend) pattern
