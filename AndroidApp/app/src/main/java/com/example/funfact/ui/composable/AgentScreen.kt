@@ -4,11 +4,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,6 +33,7 @@ import java.io.IOException
 @Composable
 fun AgentScreen(modifier: Modifier = Modifier) {
     val client = remember { OkHttpClient() }
+    var question by remember { mutableStateOf("") }
     var response by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
 
@@ -41,16 +44,26 @@ fun AgentScreen(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("FUN FACTS ABOUT SPACE", modifier= Modifier.padding(24.dp), style = MaterialTheme.typography.headlineSmall)
-        Spacer(modifier = Modifier.height(24.dp))
+        OutlinedTextField(
+            value = question,
+            onValueChange = { question = it },
+            label = { Text("Ask something...") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Button(
             onClick = {
+                if (question.isBlank()) return@Button
                 isLoading = true
                 response = ""
 
-                val request = Request.Builder()
-                    .url("http://10.0.2.2:8000/agent/fact")
-                    .build()
+                val url = "http://10.0.2.2:8000/agent/fact?question=${
+                    java.net.URLEncoder.encode(question, "UTF-8")
+                }"
+
+                val request = Request.Builder().url(url).build()
 
                 client.newCall(request).enqueue(object : Callback {
                     override fun onFailure(call: Call, e: IOException) {
@@ -69,16 +82,14 @@ fun AgentScreen(modifier: Modifier = Modifier) {
                     }
                 })
             },
-            enabled = !isLoading
+            enabled = !isLoading && question.isNotBlank()
         ) {
             Text("Ask the Agent")
         }
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        if (isLoading) {
-            CircularProgressIndicator()
-        }
+        if (isLoading) CircularProgressIndicator()
 
         if (response.isNotEmpty()) {
             Text(
